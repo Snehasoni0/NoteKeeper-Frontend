@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import NoteModel from '../components/NoteModel';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import NoteCard from '../components/NoteCard';
 import { useAuth } from '../context/ContextProvider';
 import { toast } from 'react-toastify';
+import axiosInstance from '../../lib/axios';
 
 function Home() {
   const [isModelOpen, setModelOpen] = useState(false);
@@ -26,7 +26,7 @@ function Home() {
 
   const fetchNotes = async () => {
     try {
-      const { data } = await axios.get('https://notekeeper-dz6x.onrender.com/api/note', {
+      const { data } = await axiosInstance.get('/api/note', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -50,7 +50,7 @@ function Home() {
 
   const addNote = async (title, description) => {
     try {
-      const response = await axios.post('https://notekeeper-dz6x.onrender.com/api/note/add', { title, description }, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
+      const response = await axiosInstance.post('/api/note/add', { title, description }, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
       if (response.data.success) {
         fetchNotes();
         navigate('/');
@@ -64,7 +64,7 @@ function Home() {
 
   const editNote = async (id, title, description) => {
     try {
-      const response = await axios.put(`https://notekeeper-dz6x.onrender.com/api/note/${id}`, { title, description }, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
+      const response = await axiosInstance.put(`/api/note/${id}`, { title, description }, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
       if (response.data.success) {
         fetchNotes();
         setModelOpen(false);
@@ -77,7 +77,7 @@ function Home() {
 
   const deleteNote = async (id) => {
     try {
-      const response = await axios.delete(`https://notekeeper-dz6x.onrender.com/api/note/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
+      const response = await axiosInstance.delete(`/api/note/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
       if (response.data.success) {
         fetchNotes();
         toast.success("Deleted!");

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import axios from "axios"
 import { Link, useNavigate } from 'react-router-dom';
+import axiosInstance from '../../lib/axios';
 
 function Signup() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://notekeeper-dz6x.onrender.com/api/auth/register', { name, email, password });
+      const response = await axiosInstance.post('/api/auth/register', { name, email, password });
       if(response.data.success){
         navigate('/login')
       }

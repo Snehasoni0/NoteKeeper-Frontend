@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import axios from "axios"
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/ContextProvider';
+import axiosInstance from '../../lib/axios';
 
 function Login() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://notekeeper-dz6x.onrender.com/api/auth/login', { email, password });
+      const response = await axiosInstance.post('/api/auth/login', { email, password });
       if (response.data.success) {
         login(response.data.user);
         localStorage.setItem("user", JSON.stringify(response.data.user));

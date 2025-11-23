@@ -10,7 +10,7 @@ function ContextProvider({ children }) {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const res = await axios.get('https://notekeeper-dz6x.onrender.com/api/auth/verify',{
+        const res = await axios.get('http://localhost:8000/api/auth/verify',{
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }
